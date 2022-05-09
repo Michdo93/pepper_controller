@@ -91,11 +91,13 @@ class PepperController(object):
         if pressKey.char == ('q'):
             self.q = True
             self.speed = 0
+            self.motion_service.stopMove()
             self.printscreen()
 
         if pressKey.char == ('e'):
             self.e = True
             self.steer = 0
+            self.motion_service.stopMove()
             self.printscreen()
 
     def on_release(self, releaseKey):
@@ -112,7 +114,7 @@ class PepperController(object):
             return False
 
     def check_speedAndSteer(self):
-        while ((self.w == False or self.s == False) or (self.a == False or self.d == False)) and not rospy.is_shutdown():
+        while ((self.w == False or self.s == False) or (self.a == False or self.d == False)):
             if(self.speed >= 0.1):
                 self.speed = self.speed - 0.1
                 self.motion_service.move(self.speed, 0, 0)
